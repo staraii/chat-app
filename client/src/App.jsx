@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+} from "react-router-dom";
 import Home from "views/home/Home.jsx";
 import Login from "views/login/login.jsx";
 import Register from "views/register/register.jsx";
@@ -10,13 +15,14 @@ import "./App.css";
 
 function App() {
 	return (
-		<div className="app" data-theme="dark">
+		<div className="app" id="appTheme" data-darkmode="dark">
 			<Router>
 				<Routes>
 					<Route index element={<Home />} />
 					<Route path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
+					<Route path="*" element={<Navigate to="/" />} />
 
 					<Route path="/user" element={<User />}>
 						<Route index element={<Channels />} />

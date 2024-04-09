@@ -1,0 +1,25 @@
+.chatSection {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.chatContainer {
+	display: flex;
+	flex-direction: row;
+	height: 77vh;
+}
+.nav {
+	background-color: var(--secondary);
+	width: 25vw;
+	height: 100%;
+}
+.chatArticle {
+	width: 75vw;
+	background-color: var(--primary);
+}
+.chatFooter {
+	width: 100%;
+	height: 15vh;
+	background-color: var(--accent);
+}

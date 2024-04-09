@@ -1,0 +1,25 @@
+.chatFooter {
+	width: 100%;
+	height: 15vh;
+	background-color: var(--accent);
+}
+.form {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+}
+.input {
+	width: 75%;
+	height: 10vh;
+	border-radius: 5vh;
+	padding-inline: 2rem;
+	padding-block: 1rem;
+}
+
+.button {
+	height: 8vh;
+	width: 15%;
+	border-radius: 4vh;
+}

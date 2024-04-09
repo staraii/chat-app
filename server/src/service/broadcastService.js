@@ -1,13 +1,12 @@
 import { fetchCollection } from "../mongodb/mongoDbClient.js";
-import dateTimeUtil from "../utils/dateTimeUtil.js";
 
-const ORDER_COLLECTION_NAME = "channels";
 
-const orders = [];
+const CHANNELS_COLLECTION_NAME = "channels";
+
 const query = { channelName: "broadcast" };
 const getAllBroadcasts = async () => {
 	const projection = { messages: 1 };
-	const cursor = await fetchCollection(ORDER_COLLECTION_NAME).find(query, {
+	const cursor = await fetchCollection(CHANNELS_COLLECTION_NAME).find(query, {
 		projection,
 	});
 	const result = await cursor.toArray();
@@ -15,9 +14,9 @@ const getAllBroadcasts = async () => {
 };
 
 const postBroadcast = async (message) => {
-	const { date, time, now } = dateTimeUtil();
-	const newMessage = { date, time, now, message };
-	return await fetchCollection(ORDER_COLLECTION_NAME).findOneAndUpdate(
+	const timeStamp = new Date();
+	const newMessage = { timeStamp, message: message.message };
+	return await fetchCollection(CHANNELS_COLLECTION_NAME).findOneAndUpdate(
 		query,
 		{ $push: { messages: newMessage } }
 	);

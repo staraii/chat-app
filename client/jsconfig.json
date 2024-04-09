@@ -7,7 +7,8 @@
 			"hooks": ["./src/hooks/*"],
 			"service": ["./src/service/*"],
 			"utils": ["./src/utils/*"],
-			"views": ["./src/views/*"]
+			"views": ["./src/views/*"],
+			"context": ["./src/context/*"]
 		}
 	}
 }

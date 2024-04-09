@@ -7,14 +7,9 @@ const create = async ({ username, password }) => {
 	const userExists = await fetchCollection(USER_COLLECTION_NAME).findOne({
 		username: username,
 	});
-	//console.log("kollat mot databas, resultat:" + result);
 	if (userExists != null) {
-		console.log("resultat från db: användare finns redan");
 		return false;
 	} else {
-		console.log(
-			"ingen användare hittad, går vidare med att kryptera lösen"
-		);
 		const hash = await bcrypt.hash(password, 12);
 		const newUser = await fetchCollection(USER_COLLECTION_NAME).insertOne({
 			username,

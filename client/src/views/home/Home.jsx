@@ -1,60 +1,92 @@
 import styles from "./home.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import MessagesList from "./components/MessagesList.jsx";
+
 function Home() {
-	const [message, setMessage] = useState("");
-	const socket = io("http://localhost:3000");
-	useEffect(() => {
-		socket.connect();
-
-		return () => {
-			socket.disconnect();
-		};
-	}, []);
-
+	const [inputMsg, setInputMsg] = useState("");
+	const [messages, setMessages] = useState([]);
+	const mutation = useMutation({
+		mutationFn: (newMsg) => {
+			return axios.post("http://localhost:3000/api/broadcast", newMsg);
+		},
+	});
+	const socket = io("http://localhost:3000/broadcast", {
+		autoConect: false,
+	});
 	const fetchPosts = async () => {
 		const response = await axios.get("http://localhost:3000/api/broadcast");
-		return response.data;
+		const data = [...response.data[0].messages];
+		return data;
 	};
 	const { data, error, isError, isLoading } = useQuery({
 		queryKey: ["posts"],
 		queryFn: fetchPosts,
 	});
-	if (isLoading) {
-		return <div>Loading...</div>;
-	}
-	if (isError) {
-		return <div>Error! {error.message}</div>;
-	}
+	useEffect(() => {
+		if (data) {
+			setMessages([...data]);
+		}
+	}, [data]);
+	useEffect(() => {
+		socket.connect();
+		function onConnect() {
+			console.log("connected");
+		}
+		function onDisconnect() {
+			console.log("disconnected");
+		}
+		function recievedBroadcast(msg) {
+			setMessages((messages) => [...messages, msg]);
+		}
+		socket.on("connect", onConnect);
+		socket.on("disconnect", onDisconnect);
+		socket.on("broadcastMsg", recievedBroadcast);
 
-	const msgArr = [...data[0].messages];
-	console.log(msgArr);
-
+		return () => {
+			socket.off("connect", onConnect);
+			socket.off("broadcastMsg", recievedBroadcast);
+			socket.disconnect();
+			socket.off("disconnect", onDisconnect);
+		};
+	}, []);
+	const sendMsg = (e) => {
+		e.preventDefault();
+		const newMsg = { message: inputMsg, timeStamp: new Date() };
+		socket.emit("broadcastMsg", newMsg);
+		mutation.mutate(newMsg);
+		setInputMsg("");
+	};
 
 	return (
 		<main className={styles.main}>
 			<h1 className={styles.h1}>Welcome to Chat-App</h1>
 			<section className={styles.section}>
-				<ul className={styles.ul}>
-					{" "}
-					{msgArr.map((msg, index) => (
-						<li key={index}>
-							{/* {msg.message.message} */}
-							{msg.time}
-						</li>
-					))}
-				</ul>
-				<form className={styles.form}>
+				{messages.length > 0 && (
+					<MessagesList
+						isLoading={isLoading}
+						isError={isError}
+						messages={messages}
+					/>
+				)}
+				<form className={styles.form} onSubmit={(e) => sendMsg(e)}>
 					<input
 						type="text"
 						className={styles.input}
-						value={message}
-						onChange={(e) => setMessage(e.target.value)}
+						value={inputMsg}
+						autoComplete="off"
+						onChange={(e) => setInputMsg(e.target.value)}
 					/>
-					<button className={styles.button}>Send</button>
+					<button
+						type="submit"
+						className={styles.button}
+						disabled={inputMsg == ""}
+					>
+						Send
+					</button>
 				</form>
 			</section>
 			<nav className={styles.nav}>

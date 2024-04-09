@@ -1,29 +1,43 @@
 .main {
 	width: 100%;
-	min-height: 100vh;
+	height: 100vh;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
+	overflow-y: clip;
 }
 
 .h1 {
+	margin: 1rem;
 	color: var(--text);
 	font-size: 2.5rem;
-	padding: 1rem;
 }
 .section {
 	display: flex;
 	flex-direction: column;
+	width: 80%;
+	height: 50vh;
 	gap: 1rem;
 	background-color: var(--accent);
 	padding: 0.75rem;
 	border-radius: 0.75rem;
 }
-.ul {
-	background-color: var(--background);
+
+.li {
 	border-radius: 0.75rem;
-	height: 15rem;
+	background-color: var(--secondary);
+	padding-block: 0.25rem;
+	padding-inline: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.msg {
+	color: var(--text);
+}
+.time {
+	border: 0;
 }
 .form {
 	display: flex;
@@ -33,11 +47,11 @@
 .input {
 	border: 0;
 	height: 3rem;
-	width: 12rem;
 	border-radius: 0.75rem;
+	width: 100%;
 }
 .button {
-	width: 4rem;
+	width: 5rem;
 	height: 3rem;
 	border-radius: 0.75rem;
 	font-family: "Poppins";
@@ -45,12 +59,11 @@
 	color: var(--text);
 }
 .nav {
-	height: 5rem;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	gap: 4rem;
-	padding: 1rem;
+	column-gap: 4rem;
+	margin-bottom: 2rem;
 }
 .link {
 	text-decoration: none;

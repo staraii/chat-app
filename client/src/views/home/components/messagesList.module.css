@@ -1,0 +1,11 @@
+.ul {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	background-color: var(--background);
+	border-radius: 0.75rem;
+	height: 100%;
+	list-style: none;
+	padding: 0.5rem;
+	overflow-y: auto;
+}

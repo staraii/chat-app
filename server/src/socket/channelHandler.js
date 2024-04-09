@@ -1,5 +1,4 @@
-function channelHandler(channelNsp, socket, next) {
-	channelNsp.on("connection", (socket) => {
+function channelHandler(socket) {
 		console.log("Annonymus connected to channel namespace");
 
 		socket.on("channel message", (msg) => {
@@ -10,6 +9,5 @@ function channelHandler(channelNsp, socket, next) {
 		socket.on("disconnect", () => {
 			console.log("User disconnected from channel namespace");
 		});
-	});
 }
 export default channelHandler;

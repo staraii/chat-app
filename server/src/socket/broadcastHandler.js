@@ -1,14 +1,13 @@
+
 function broadcastHandler(io) {
-	console.log(io)
-	io.on("connection", function (socket) {
-		console.log("socket!!!");
-		socket.emit("greeting-from-server", {
-			greeting: "Hello Client",
+	io.on("connection", (socket) => {
+		socket.on("broadcastMsg", (msg) => {
+			//const { message, timeStamp } = msg;
+			//console.log("msg:" + message + timeStamp);
+			io.emit("broadcastMsg", msg);
 		});
-		socket.on("greeting-from-client", function (message) {
-			console.log(message);
-		});
-		
+	
 	});
 }
+
 export default broadcastHandler;

@@ -5,8 +5,9 @@ import { Server } from "socket.io";
 import cors from "cors";
 import broadcastRouter from "./server/src/router/broadcastRouter.js";
 import authRouter from "./server/src/router/authRouter.js";
-import channelRouter from "./server/src/router/channelRouter.js";
-
+import channelsRouter from "./server/src/router/channelsRouter.js";
+import broadcastHandler from "./server/src/socket/broadcastHandler.js";
+import channelHandler from "./server/src/socket/channelHandler.js";
 
 // Hämtar port från .env, annars default 3000
 const PORT = process.env.PORT || 3000;
@@ -15,27 +16,33 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
-	cors: { origin: "http://localhost:5174"}
+	cors: {
+		origin: "*",
+	},
 });
 
 
-
-// Cors middleware
+// Middleware
 app.use(cors());
-// JSON middleware
 app.use(express.json());
 
-// Gör "io" tillgänglig som middleware
-app.use((req, res, next) => {
-	req.io = io;
-	return next();
-});
+// IO namespaces
+const broadcastNsp = io.of("/broadcast");
+const channelsNsp = io.of("/channels");
+const adminNsp = io.of("/admin");
+
+
+broadcastHandler(broadcastNsp);
+// channelsHandler(channelsNsp);
+// adminHandler(adminNsp);
+
+
+
 
 //Routers
 app.use("/api/broadcast", broadcastRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/channel", channelRouter);
-
+app.use("/api/channels", channelsRouter);
 
 server.listen(PORT, async () => {
 	console.log("Server is running on port: " + PORT);

@@ -1,0 +1,39 @@
+.userDiv {
+	width: 100%;
+	min-height: 100vh;
+	color: var(--text);
+}
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 0.5rem;
+	height: 8vh;
+}
+.themeToggle {
+	width: 3rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	background-color: var(--accent);
+}
+/* .themeToggleDark {
+	width: 3rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	background-color: var(--accent);
+} */
+.themeToggleLight {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	border: 1px solid var(--accent);
+	background-color: var(--secondary);
+}
+.themeToggleDark {
+	width: 1rem;
+	height: 1rem;
+	border-radius: 0.5rem;
+	border: 1px solid var(--accent);
+	background-color: var(--secondary);
+	transform: translateX(200%);
+}
