@@ -36,8 +36,6 @@ const getUsersByChannelId = async (channelId) => {
 	return result;
 };
 const postMessageByChannelId = async ({ channelId, username, message, timeStamp }) => {
-	//const query = { channelName: channelName };
-	//const { date, time, now } = dateTimeUtil();
 	const newMessage = { channelId, username, message, timeStamp };
 	const result = await fetchCollection(
 		MESSAGES_COLLECTION_NAME
