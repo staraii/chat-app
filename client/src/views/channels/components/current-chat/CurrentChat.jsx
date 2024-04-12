@@ -2,6 +2,7 @@ import styles from "./currentChat.module.css";
 import { useChat } from "context/ChatContext.jsx";
 import { useAuth } from "context/AuthContext.jsx";
 import { useState, useEffect, useRef } from "react";
+import ChannelMessage from "./components/channel-message/ChannelMessage.jsx";
 import axios from "axios";
 
 // Base url för endpoints
@@ -25,11 +26,8 @@ function CurrentChat() {
 			{messagesInChannel &&
 				(messagesInChannel.map((msg, index) => {
 					return (
-						<li className={styles.li} key={index}>
-							<div className={styles.div}></div>
-							<p>{msg.username}</p>
-							<p>{msg.message}</p>
-						</li>
+						<ChannelMessage key={index} id={msg._id} username={msg.username} msg={msg.message} timeStamp={msg.timeStamp} userLocale={userLocale} />
+				
 					);
 				}))}
 		</ul>

@@ -37,11 +37,12 @@ const postMessageByChannelId = async (req, res) => {
 };
 
 const addChannel = async (req, res) => {
-	const { channelName, username } = req.body;
-	if (channelName == undefined || username == undefined) {
+	const { channelName, ownedBy } = req.body;
+	console.log(channelName, ownedBy)
+	if (channelName == undefined || ownedBy == undefined) {
 		return res.status(400).json({ error: "Missing parameters" });
 	}
-	await channelsService.addChannel(channelName, username);
+	await channelsService.addChannel({channelName, ownedBy});
 	res.status(201).json({ msg: "Channel created" });
 };
 const deleteChannel = async (req, res) => {

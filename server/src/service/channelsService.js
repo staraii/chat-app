@@ -48,11 +48,10 @@ const postMessageByChannelId = async ({ channelId, username, message }) => {
 	return result;
 };
 
-const addChannel = async ({channelName, username}) => {
+const addChannel = async ({channelName, ownedBy}) => {
 	const newChannel = {
 		channelName: channelName,
-		ownedBy: username,
-		usersOnline: []
+		ownedBy: ownedBy,
 	};
 	const result = await fetchCollection(CHANNELS_COLLECTION_NAME).insertOne(
 		newChannel

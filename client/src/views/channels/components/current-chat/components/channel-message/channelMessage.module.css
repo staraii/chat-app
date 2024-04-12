@@ -1,6 +1,11 @@
-.li {
+.others {
 	display: flex;
 	flex-direction: column;
+}
+.ownMessage {
+	display: flex;
+	flex-direction: column;
+	
 }
 .div {
 	display: inline-flex;
@@ -20,7 +25,7 @@
 	overflow-wrap: break-word;
 	max-width: 75vw;
 }
-.time {
+.user {
 	color: var(--text);
 	font-size: 0.6rem;
 	padding-inline: 0.25rem;
