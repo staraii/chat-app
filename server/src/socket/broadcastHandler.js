@@ -1,13 +1,13 @@
 function broadcastHandler(io) {
 	io.on("connection", (socket) => {
-		console.log("unid connected to broadcast");
-		socket.on("broadcastMsg", (msg) => {
-			//const { message, timeStamp } = msg;
-			//console.log("msg:" + message + timeStamp);
-			io.emit("broadcastMsg", msg);
+		console.log("connected");
+		socket.on("client sent broadcast", (msg) => {
+			console.log("client sent broadcast")
+			io.emit("broadcast sent", "broadcast sent");
 		});
-		socket.on("disconnect", (msg) => { 
+		socket.on("disconnect", () => {
 			console.log("broadcast disconnected")
+			socket.disconnect();
 		})
 	});
 	

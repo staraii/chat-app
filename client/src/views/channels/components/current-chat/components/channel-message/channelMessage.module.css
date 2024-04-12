@@ -1,37 +1,55 @@
-.others {
+.li {
+	width: 100;
 	display: flex;
 	flex-direction: column;
+	margin-block: 1rem;
 }
-.ownMessage {
-	display: flex;
-	flex-direction: column;
-	
-}
-.div {
+.container {
 	display: inline-flex;
 	flex-direction: column;
-	justify-content: space-between;
-	max-width: 80%;
 	width: fit-content;
-	gap: 0.25rem;
-
-	border-radius: 0.5rem;
-	background-color: var(--primary);
-	padding-block: 0.25rem;
-	padding-inline: 0.5rem;
+	max-width: 80%;
 }
-.span {
-	color: var(--text);
-	overflow-wrap: break-word;
-	max-width: 75vw;
-}
-.user {
+.pUser {
+	padding-left: 2.25rem;
 	color: var(--text);
 	font-size: 0.6rem;
-	padding-inline: 0.25rem;
+	/* padding-inline: 0.25rem; */
+}
+.divMsg {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex;
+}
+.time {
+	width: 2rem;
+	margin-block: auto;
+	color: var(--text);
+	font-size: 0.6rem;
 }
 .date {
-	color: var(--background);
 	text-align: right;
+	padding-right: 0.25rem;
 	font-size: 0.6rem;
 }
+.msg {
+	display: inline-flex;
+	width: fit-content;
+	overflow-wrap: break-word;
+	background-color: var(--primary);
+	padding-inline: 0.5rem;
+	padding-block: 0.25rem;
+	border-radius: 0.5rem;
+}
+.usersMsg {
+	display: inline-flex;
+	width: fit-content;
+	overflow-wrap: break-word;
+	background-color: var(--accent);
+	padding-inline: 0.5rem;
+	padding-block: 0.25rem;
+	border-radius: 0.5rem;
+}
+
+
+

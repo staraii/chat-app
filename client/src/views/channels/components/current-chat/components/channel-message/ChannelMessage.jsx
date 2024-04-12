@@ -6,20 +6,24 @@ function ChannelMessage({ msg, username, timeStamp, userLocale, id }) {
 	const [isOpen, setIsOpen] = useState(false);
 	// AuthContext
 	const { user } = useAuth();
-	// let { date, time } = dateTimeUtil(timeStamp, userLocale);
-	return (
-		<li className={(username === user.username ? "styles.ownMessage" : "styles.others")} onClick={() => setIsOpen(!isOpen)}>
-			<p className={styles.user}>{username}</p>
-			<div className={styles.div}>
-				<p className={styles.span}>{msg}</p>
 
-				{/* {isOpen ? (
-					<div className={styles.timeDate}>
-						<time className={styles.time}>{time}</time>
-						<time className={styles.date}>{date}</time>
-					</div>
-				) : null} */}
+	// Omvandlar timestamp till lokal tid och format
+	const { date, time } = dateTimeUtil(timeStamp, userLocale);
+
+	// Kontrollerar om meddelandet är användarens egna
+
+	return (
+		<li className={styles.li} onClick={() => setIsOpen(!isOpen)}>
+			<div className={styles.container}>
+				
+				<p className={styles.pUser}>{username}</p>
+				<div className={styles.divMsg}>
+					<span className={styles.time}>{time}</span>
+					{user.username === username ? (<p className={styles.usersMsg}>{msg}</p>) : (<p className={styles.msg}>{msg}</p>)}
+				</div>
+				{isOpen && <p className={styles.date}>{date}</p>}
 			</div>
+
 		</li>
 	);
 }

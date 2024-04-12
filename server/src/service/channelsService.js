@@ -1,9 +1,9 @@
 import { fetchCollection } from "../mongodb/mongoDbClient.js";
 import { ObjectId } from "mongodb";
-//import dateTimeUtil from "../utils/dateTimeUtil.js";
+
 
 const CHANNELS_COLLECTION_NAME = "channels";
-const USERS_COLLECTION_NAME = "users";
+//const USERS_COLLECTION_NAME = "users";
 const MESSAGES_COLLECTION_NAME = "messages";
 
 
@@ -16,7 +16,7 @@ const getAllChannels = async () => {
 	return result;
 };
 const getMessagesByChannelId = async (channelId) => {
-	const query = { channelId: new ObjectId(channelId) };
+	const query = { channelId: channelId };
 	const cursor = await fetchCollection(MESSAGES_COLLECTION_NAME).find(query);
 	const result = await cursor.toArray();
 	if (result.length === 0) {
@@ -36,7 +36,8 @@ const getUsersByChannelId = async (channelId) => {
 	return result;
 };
 const postMessageByChannelId = async ({ channelId, username, message, timeStamp }) => {
-	const newMessage = { channelId, username, message, timeStamp };
+	const ts = new Date(timeStamp);
+	const newMessage = { channelId, username, message, timeStamp: ts };
 	const result = await fetchCollection(
 		MESSAGES_COLLECTION_NAME
 	).insertOne(newMessage);

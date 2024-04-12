@@ -11,9 +11,11 @@ import User from "views/user/User.jsx";
 import Channels from "views/channels/Channels.jsx";
 import Admin from "views/admin/Admin.jsx";
 import Dashboard from "views/dashboard/Dashboard.jsx";
+
 import "./App.css";
 
 function App() {
+
 	return (
 		<div className="app" id="appTheme" data-darkmode="dark">
 			<Router>

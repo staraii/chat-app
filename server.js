@@ -30,19 +30,19 @@ app.use(express.json());
 // IO namespaces
 const broadcastNsp = io.of("/broadcast"); 
 const channelsNsp = io.of("/channels");
-const adminNsp = io.of("/admin"); 
 
-broadcastHandler(broadcastNsp);
-channelsHandler(channelsNsp);  
-// adminHandler(adminNsp);
+
+//broadcastHandler(broadcastNsp);
+//channelsHandler(channelsNsp);  
+
 
 //Routers
 app.use("/api/broadcast", broadcastRouter);  
 app.use("/api/auth", authRouter); 
-app.use("/api/channels", channelsRouter);
+app.use("/api/channels", channelsRouter); 
 app.use("/api/me", meRouter);  
 app.use("/api/health", healthCheckRouter);
 
 server.listen(PORT, async () => {
 	console.log("Server is running on port: " + PORT);
-});
+}); 

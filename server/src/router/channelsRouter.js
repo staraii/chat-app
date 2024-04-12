@@ -21,7 +21,7 @@ router
 		channelsController.postMessageByChannelId
 	)
 	.put(
-		"/", channelsController.addChannel
+		"/", jwtFilter.authorize.bind({role: "USER"}), channelsController.addChannel
 	)
 	.delete(
 		"/:id",

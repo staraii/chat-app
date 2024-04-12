@@ -1,63 +1,62 @@
 import styles from "./home.module.css";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
 import axios from "axios";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import MessagesList from "./components/MessagesList.jsx";
-
+const socket = io("http://localhost:3000/broadcast", {
+	autoConect: false,
+});
 function Home() {
 	const [inputMsg, setInputMsg] = useState("");
 	const [messages, setMessages] = useState([]);
-	const mutation = useMutation({
-		mutationFn: (newMsg) => {
-			return axios.post("http://localhost:3000/api/broadcast", newMsg);
-		},
-	});
-	const socket = io("http://localhost:3000/broadcast", {
-		autoConect: false,
-	});
+
+
 	const fetchPosts = async () => {
 		const response = await axios.get("http://localhost:3000/api/broadcast");
-		const data = [...response.data];
+		const data = await response.data;
+		setMessages([...data]);
 		return data;
 	};
-	const { data, error, isError, isLoading } = useQuery({
-		queryKey: ["posts"],
-		queryFn: fetchPosts,
-	});
+	const sendBroadcast = async (msg) => {
+		const response = await axios.post(
+			"http://localhost:3000/api/broadcast",
+			msg
+		);
+		console.log(response.data);
+		fetchPosts();
+		return response;
+	};
 	useEffect(() => {
-		if (data) {
-			setMessages([...data]);
-		}
-	}, [data]);
-	useEffect(() => {
+		fetchPosts();
 		socket.connect();
 		function onConnect() {
-			console.log("connected");
+			console.log("bc connected");
 		}
 		function onDisconnect() {
-			console.log("disconnected");
+			console.log("bc disconnected");
 		}
-		function recievedBroadcast(msg) {
-			setMessages((messages) => [...messages, msg]);
+		function getBroadcast() {
+			console.log("got broadcast");
+			fetchPosts();
 		}
 		socket.on("connect", onConnect);
+		socket.on("broadcast sent", getBroadcast);
 		socket.on("disconnect", onDisconnect);
-		socket.on("broadcastMsg", recievedBroadcast);
 
 		return () => {
 			socket.off("connect", onConnect);
-			socket.off("broadcastMsg", recievedBroadcast);
+			socket.off("broadcast sent", getBroadcast);
 			socket.disconnect();
-			//socket.off("disconnect", onDisconnect);
+			socket.off("disconnect", onDisconnect);
+			
 		};
-	},);
+	}, []);
 	const sendMsg = (e) => {
 		e.preventDefault();
 		const newMsg = { message: inputMsg, timeStamp: new Date() };
-		socket.emit("broadcastMsg", newMsg);
-		mutation.mutate(newMsg);
+		socket.emit("client sent broadcast");
+		sendBroadcast(newMsg);
 		setInputMsg("");
 	};
 
@@ -67,8 +66,6 @@ function Home() {
 			<section className={styles.section}>
 				{messages.length > 0 && (
 					<MessagesList
-						isLoading={isLoading}
-						isError={isError}
 						messages={messages}
 					/>
 				)}

@@ -29,7 +29,6 @@ const getUsersByChannelId = async (req, res) => {
 const postMessageByChannelId = async (req, res) => {
 	const channelId = req.params.id;
 	const { username, message, timeStamp } = req.body;
-	console.log(username)
 	if (channelId == undefined) {
 		return res.status(400).json({ error: "Missing parameters" });
 	}
@@ -47,6 +46,8 @@ const addChannel = async (req, res) => {
 	res.status(201).json({ msg: "Channel created" });
 };
 const deleteChannel = async (req, res) => {
+	const { username } = req.body;
+	console.log(username);
 	const channelId = req.params.id;
 	if (channelId == undefined) {
 		return res.status(400).json({ error: "Missing parameters" });

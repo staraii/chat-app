@@ -12,24 +12,50 @@ function CurrentChat() {
 	const msgListRef = useRef(null);
 	const userLocale = navigator.language;
 	//Chat Context
-	const { currentChannel, messagesInChannel } = useChat();
-
+	const { currentChannel } = useChat();
 	// AuthContext
 	const { user } = useAuth();
-
+	//Auth header
+	const headers = {
+		"Content-Type": "application/json",
+		authorization: `Bearer ${user.token}`,
+	};
+	const getMessages = async () => {
+		const response = await axios.get(`${API_URL}/${currentChannel}`, {
+			headers,
+		});
+		console.log(response.data);
+		const data = response.data;
+		setMessages(data);
+		return data;
+	};
 	useEffect(() => {
 		msgListRef.current?.lastElementChild?.scrollIntoView();
-	}, [messagesInChannel]);
+	}, [messages]);
+	useEffect(() => {
+		getMessages();
+	}, [currentChannel])
+	useEffect(() => {
+		getMessages();
+	}, []);
 	return (
 		<ul className={styles.ul} ref={msgListRef}>
-			{messagesInChannel.length == 0 ? (<p>Choose a channel to start chatting</p>) : null}
-			{messagesInChannel &&
-				(messagesInChannel.map((msg, index) => {
+			{messages.length == 0 ? (
+				<p>Choose a channel to start chatting</p>
+			) : null}
+			{messages &&
+				messages.map((msg, index) => {
 					return (
-						<ChannelMessage key={index} id={msg._id} username={msg.username} msg={msg.message} timeStamp={msg.timeStamp} userLocale={userLocale} />
-				
+						<ChannelMessage
+							key={index}
+							id={msg._id}
+							username={msg.username}
+							msg={msg.message}
+							timeStamp={msg.timeStamp}
+							userLocale={userLocale}
+						/>
 					);
-				}))}
+				})}
 		</ul>
 	);
 }

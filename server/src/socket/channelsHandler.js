@@ -1,11 +1,32 @@
-//import InMemorySessionStore from "./sessionStore.js";
-//const SessionStore = new InMemorySessionStore();
-//import InMemoryMessageStore from "./messageStore.js";
-//const MessageStore = new InMemoryMessageStore();
 //import crypto from "crypto";
 //const randomId = () => crypto.randomBytes(8).toString("hex");
+let users = [];
+function channelHandler(io) {
+	io.on("connection", (socket) => {
+		console.log(`${socket.id} user connected`);
+		socket.on("message", (data) => {
+			io.emit("messageResponse", data);
+		});
+		io.adapter.on("join-room", (room, id) => {
+			console.log(`socket ${id} has joined ${room}`);
+		});
+		socket.on("newUser", (data) => { 
+			users.push(data);
+			console.log(users);
+			io.emit("newUserResponse", users);
+		});
+		socket.on("channel-deleted", () => {
+			socket.broadcast.emit("channel-deleted");
+		});
 
-function channelHandler(io) { 
+		socket.on("disconnect", () => {
+			console.log("User disconnect");
+			users = users.filter((user) => user.socketId !== socket.id);
+			console.log(users);
+			socket.emit("newUserResponse", users);
+			socket.disconnect();
+		});
+	});
 	// io.use((socket, next) => {
 	// 	const sessionId = socket.handshake.auth.sessionId;
 	// 	if (sessionId) {
@@ -17,8 +38,7 @@ function channelHandler(io) {
 	// 			return next();
 	// 		}
 	// 	}
-
-	// 	const username = socket.handshake.auth.username; 
+	// 	const username = socket.handshake.auth.username;
 	// 	console.log(username);
 	// 	if (!username) {
 	// 		return next(new Error("invalid username"));
@@ -66,7 +86,6 @@ function channelHandler(io) {
 	// 		username: socket.username,
 	// 	});
 	// 	socket.join(socket.userId);
-
 	// 	socket.on("private message", ({ content, to }) => {
 	// 		const message = { content, from: socket.userId, to };
 	// 		socket
@@ -87,9 +106,7 @@ function channelHandler(io) {
 	// 			});
 	// 		}
 	// 	});
-
 	// });
-
 	// io.on("disconnect", () => {
 	// 	console.log("User disconnected from channel namespace");
 	// });
