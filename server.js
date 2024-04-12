@@ -32,7 +32,7 @@ const broadcastNsp = io.of("/broadcast");
 const channelsNsp = io.of("/channels");
 
 
-//broadcastHandler(broadcastNsp);
+broadcastHandler(broadcastNsp);
 //channelsHandler(channelsNsp);  
 
 
