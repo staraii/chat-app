@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
 		document.querySelector("#appTheme").dataset.darkmode = `${theme}`;
 	}
 	return (
-		<AuthContext.Provider value={{ isLoggedIn, user, login, logout, isDark, setTheme }}>
+		<AuthContext.Provider value={{ isLoggedIn, user, username: user.username, login, logout, isDark, setTheme }}>
 			{children}
 		</AuthContext.Provider>
 	);

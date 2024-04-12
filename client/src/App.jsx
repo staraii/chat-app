@@ -22,13 +22,11 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
-					<Route path="*" element={<Navigate to="/" />} />
-
-					<Route path="/user" element={<User />}>
-						<Route index element={<Channels />} />
-						<Route path="channels" element={<Channels />} />
-					</Route>
-
+					<Route path="*" element={<Navigate to="/" />} />		
+						<Route path="/user" element={<User />}>
+							<Route index element={<Channels />} />
+							<Route path="channels" element={<Channels />} />
+						</Route>
 					<Route path="/admin" element={<Admin />}>
 						<Route index element={<Dashboard />} />
 						<Route path="dashboard" element={<Dashboard />} />

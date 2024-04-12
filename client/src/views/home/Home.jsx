@@ -19,7 +19,7 @@ function Home() {
 	});
 	const fetchPosts = async () => {
 		const response = await axios.get("http://localhost:3000/api/broadcast");
-		const data = [...response.data[0].messages];
+		const data = [...response.data];
 		return data;
 	};
 	const { data, error, isError, isLoading } = useQuery({
@@ -50,9 +50,9 @@ function Home() {
 			socket.off("connect", onConnect);
 			socket.off("broadcastMsg", recievedBroadcast);
 			socket.disconnect();
-			socket.off("disconnect", onDisconnect);
+			//socket.off("disconnect", onDisconnect);
 		};
-	}, []);
+	},);
 	const sendMsg = (e) => {
 		e.preventDefault();
 		const newMsg = { message: inputMsg, timeStamp: new Date() };

@@ -1,7 +1,8 @@
 import jwtUtils from "../utils/jwtUtils.js";
 
 function authorize(req, res, next) {
-	const bearer = req.headers["authorization"];
+	// const bearer = req.headers["authorization"];
+	const bearer = req.headers.authorization;
 	try {
 		if (bearer == undefined) {
 			return res.status(400).send({ err: "Bad authorization header" });

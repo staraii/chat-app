@@ -4,7 +4,7 @@ function generate(claims) {
 	let options = {
 		issuer: "chat-app-api",
 		subject: "Auth token for chat-app api",
-		expiresIn: "45m",
+		expiresIn: "1d",
 	};
 	return jwt.sign(claims, process.env.JWT_SECRET_KEY, options);
 }

@@ -29,7 +29,7 @@ const exists = async ({ username, password }, afterValid) => {
 	}
 	bcrypt.compare(password, data.hash, (err, result) => {
 		if (result) {
-			afterValid(data);
+			return afterValid(data);
 		} else {
 			throw new Error("Account login failed");
 		}

@@ -1,5 +1,18 @@
-.navList {
-	background-color: var(--secondary);
-	width: 25vw;
-	height: 100%;
+.div {
+	background-color: var(--accent);
+	width: 100%;
+}
+
+.select {
+	font-family: "Poppins";
+	background-color: var(--accent);
+	width: 100%;
+	border: 0;
+	outline: 1px solid var(--background);
+	padding-inline: 1rem;
+	padding-block: 0.5rem;
+}
+
+.option1 {
+	text-align: center;
 }

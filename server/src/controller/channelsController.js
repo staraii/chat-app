@@ -9,21 +9,30 @@ const getAllChannels = async (req, res) => {
 };
 
 const getMessagesByChannelId = async (req, res) => {
-	const channelName = req.params.id;
-	if (channelName == undefined) {
+	const channelId = req.params.id;
+	if (channelId == undefined) {
 		return res.status(400).json({ error: "Missing parameters" });
 	}
-	const messages = await channelsService.getMessagesByChannelId(channelName);
-	res.status(200).json({ channelName, messages });
+	const messages = await channelsService.getMessagesByChannelId(channelId);
+	res.status(200).json(messages);
 };
 
+const getUsersByChannelId = async (req, res) => {
+	const channelId = req.params.id;
+	if (channelId == undefined) {
+		return res.status(400).json({ error: "Missing channel id" });
+	}
+	const users = await channelsService.getUsersByChannelId(channelId);
+	res.status(200).json(users);
+}
+
 const postMessageByChannelId = async (req, res) => {
-	const channelName = req.params.id;
+	const channelId = req.params.id;
 	const {username, message} = req.body;
-	if (channelName == undefined) {
+	if (channelId == undefined) {
 		return res.status(400).json({ error: "Missing parameters" });
 	}
-	await channelsService.postMessageByChannelId({ channelName, username, message });
+	await channelsService.postMessageByChannelId({ channelId, username, message });
 	res.status(200).json({msg: "Message posted"});
 };
 
@@ -36,11 +45,11 @@ const addChannel = async (req, res) => {
 	res.status(201).json({ msg: "Channel created" });
 };
 const deleteChannel = async (req, res) => {
-	const channelName = req.params.id;
-	if (channelName == undefined) {
+	const channelId = req.params.id;
+	if (channelId == undefined) {
 		return res.status(400).json({ error: "Missing parameters" });
 	}
-	const result = await channelsService.deleteChannel(channelName);
+	const result = await channelsService.deleteChannel(channelId);
 	if (!result) {
 		return res.status(400).json({ error: "Bad request" });
 	}
@@ -50,6 +59,7 @@ const deleteChannel = async (req, res) => {
 export default {
 	getAllChannels,
 	getMessagesByChannelId,
+	getUsersByChannelId,
 	postMessageByChannelId,
 	addChannel,
 	deleteChannel,

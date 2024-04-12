@@ -5,19 +5,29 @@ const ChatContext = createContext();
 export const useChat = () => useContext(ChatContext);
 
 export const ChatProvider = ({ children }) => {
-	const [inChannel, setInChannel] = useState("");
-	const [messages, setMessages] = useState([]);
-	const [channels, setChannels] = useState([]);
-
-	const joinChannel = (user, channel) => {
-		
-
-	};
-
+	const [onlineInChannel, setOnlineInChannel] = useState([]);
+	const [messagesInChannel, setMessagesInChannel] = useState([]);
+	const [channelsData, setChannelsData] = useState([]);
+	const [currentChannel, setCurrentChannel] = useState("Main");
+	const [channelNames, setChannelNames] = useState([]);
+	const [channelMod, setChannelMod] = useState("");
 
 	return (
 		<ChatContext.Provider
-			value={{ inChannel, messages, channels, joinChannel}}
+			value={{
+				onlineInChannel,
+				setOnlineInChannel,
+				messagesInChannel,
+				setMessagesInChannel,
+				channelsData,
+				setChannelsData,
+				currentChannel,
+				setCurrentChannel,
+				channelNames,
+				setChannelNames,
+				setChannelMod,
+				channelMod,
+			}}
 		>
 			{children}
 		</ChatContext.Provider>

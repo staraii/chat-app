@@ -14,7 +14,7 @@ router
 		"/:id",
 		jwtFilter.authorize.bind({ role: "USER" }),
 		channelsController.getMessagesByChannelId
-	)
+	).get("/:id/users", jwtFilter.authorize.bind({ role: "USER"}), channelsController.getUsersByChannelId)
 	.post(
 		"/:id",
 		jwtFilter.authorize.bind({ role: "USER" }),
