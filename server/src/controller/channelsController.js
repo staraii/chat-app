@@ -28,11 +28,12 @@ const getUsersByChannelId = async (req, res) => {
 
 const postMessageByChannelId = async (req, res) => {
 	const channelId = req.params.id;
-	const {username, message} = req.body;
+	const { username, message, timeStamp } = req.body;
+	console.log(username)
 	if (channelId == undefined) {
 		return res.status(400).json({ error: "Missing parameters" });
 	}
-	await channelsService.postMessageByChannelId({ channelId, username, message });
+	await channelsService.postMessageByChannelId({ channelId, username, message, timeStamp });
 	res.status(200).json({msg: "Message posted"});
 };
 

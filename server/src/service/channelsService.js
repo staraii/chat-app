@@ -35,13 +35,13 @@ const getUsersByChannelId = async (channelId) => {
 	}
 	return result;
 };
-const postMessageByChannelId = async ({ channelId, username, message }) => {
-	const query = { channelName: channelName };
+const postMessageByChannelId = async ({ channelId, username, message, timeStamp }) => {
+	//const query = { channelName: channelName };
 	//const { date, time, now } = dateTimeUtil();
-	const newMessage = { date, time, now, username, message };
+	const newMessage = { channelId, username, message, timeStamp };
 	const result = await fetchCollection(
 		MESSAGES_COLLECTION_NAME
-	).findOneAndUpdate(query, { $push: { messages: newMessage } });
+	).insertOne(newMessage);
 	if (result.modifiedCount < 1) {
 		throw new Error("Failet to post message");
 	}
